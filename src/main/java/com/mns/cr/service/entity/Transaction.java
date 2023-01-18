@@ -1,14 +1,13 @@
 package com.mns.cr.service.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Transaction {
@@ -25,19 +24,5 @@ public class Transaction {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date saveDate;
-
-    public Long calculatePoints() {
-        long points = 0l;
-        if (this.total > 50 && this.total <= 100) {
-            points += (this.total.intValue() - 50) * 1;
-        }
-        if (this.total > 100) {
-            //1 point for every dollar spent over $50
-            points += 50;
-            //2 points for every dollar spent over $100
-            points += (this.total.intValue() - 100) * 2;
-        }
-        return points;
-    }
 
 }

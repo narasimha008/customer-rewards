@@ -15,7 +15,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class Customer {
@@ -31,17 +32,4 @@ public class Customer {
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Transaction> transactions;
 
-    public Long calculateRewardPoints() {
-        if (transactions == null || transactions.isEmpty()) {
-            return 0l;
-        }
-        return transactions.parallelStream().map(t -> t.calculatePoints().intValue()).reduce(0, (t1, t2) -> t1 + t2).longValue();
-    }
-
-    public Double calculateTotalPurchases() {
-        if (transactions == null || transactions.isEmpty()) {
-            return 0d;
-        }
-        return transactions.parallelStream().map(t -> t.getTotal().doubleValue()).reduce(0d, (t1, t2) -> t1 + t2).doubleValue();
-    }
 }
